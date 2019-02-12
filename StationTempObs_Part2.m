@@ -1,7 +1,7 @@
 %% Add a comment at the top with the names of all members of your group
 
 %% Load in a list of all 18 stations and their corresponding latitudes and longitudes
-load GlobalStationsLatLon.mat %note that this file is in with the Part 1 data
+load GlobalStationsLatLon.mat
 
 %% Calculate the linear temperature trends over the historical observation period for all 18 station
 % You will do this using a similar approach as in Part 1 of this lab, but
