@@ -3,13 +3,15 @@ function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(stati
 % StationModelProjections Analyze modeled future temperature projections at individual stations
 %===================================================================
 %
-% USAGE:  [OUTPUTS] = StationModelProjections(INPUTS) <--update here
+% USAGE:  [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(station_number) <--update here
 %
 % DESCRIPTION:
-%   **Add your description here**
+%       Use the function StationModelProjections to loop over all observation stations to
+%       extract the linear rate of temperature change over the 21st century at
+%       each station.
 %
 % INPUT:
-%    staton_number: Number of the station from which to analyze historical temperature data
+%    station_number: Number of the station from which to analyze historical temperature data
 %    **Describe any other inputs you choose to include**
 %
 % OUTPUT:
@@ -21,7 +23,7 @@ function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(stati
 %       values over the full 21st century modeled period
 %   **list any other outputs you choose to include**
 %
-% AUTHOR:   Add your names here!
+% AUTHOR:   KDLTP, NBB, GracieCal, 12 February 2019
 %
 % REFERENCE:
 %    Written for GEOS 215: Earth System Data Science, Wellesley College
@@ -36,6 +38,10 @@ filename = ['model' num2str(station_number) '.csv'];
 %Extract the year and annual mean temperature data
 %<--
 
+stationdata = readtable(filename);
+yearlist = stationdata.Year;
+annualMeanList = stationdata.AnnualMeanTemperature;
+
 %% Calculate the mean and standard deviation of the annual mean temperatures
 %  over the baseline period over the first 20 years of the modeled 21st
 %  century (2006-2025) - if you follow the template for output values I
@@ -44,6 +50,8 @@ filename = ['model' num2str(station_number) '.csv'];
  %<-- (this will take multiple lines of code - see the procedure you
  %followed last week for a reminder of how you can do this)
 
+ %baseline_model = do this ************************** (0.o)
+ 
 
 %% Calculate the 5-year moving mean smoothed annual mean temperature anomaly over the modeled period
  %<-- anomaly
