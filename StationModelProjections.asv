@@ -71,5 +71,5 @@ fivemean = movmean(anomaly,5);
  
 %% Calculate the linear trend in temperature this station over the modeled 21st century period
  %<--
- linearTrend = polyfit(yearlist,anomaly,1)
+ linearTrend
 end
