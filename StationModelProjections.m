@@ -3,7 +3,7 @@ function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(stati
 % StationModelProjections Analyze modeled future temperature projections at individual stations
 %===================================================================
 %
-% USAGE:  [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(station_number) <--update here
+% USAGE:  [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(station_number) 
 %
 % DESCRIPTION:
 %       Use the function StationModelProjections to loop over all observation stations to
@@ -34,10 +34,10 @@ function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(stati
 %==================================================================
 
 %% Read and extract the data from your station from the csv file
+%before running, set station_number = to any x in command window to avoid
+%an error
 filename = ['model' num2str(station_number) '.csv'];
 %Extract the year and annual mean temperature data
-%<--
-
 stationdata = readtable(filename);
 yearlist = stationdata.Year;
 annualMeanList = stationdata.AnnualMeanTemperature;
@@ -64,12 +64,14 @@ baseline_model = [baseline_mean,baseline_std]
  
 %% Calculate the 5-year moving mean smoothed annual mean temperature anomaly over the modeled period
  %<-- anomaly
- anomaly = annualMeanList-baseline_mean ;
+ tempAnnMeanAnomaly = annualMeanList-baseline_mean ;
  
  %<-- smoothed anomaly
-fivemean = movmean(anomaly,5);
- 
+fiveMean = movmean(tempAnnMeanAnomaly,5);
+%comment from NBB- I changed these last two equations to match the 
+%names of the output variables. We aren't currently using this smooth mean
+%in any way and I'm also not sure it is right
 %% Calculate the linear trend in temperature this station over the modeled 21st century period
  %<--
- linearTrend = polyfit(yearlist,anomaly,1)
+ P = polyfit(yearlist,tempAnnMeanAnomaly,1)
 end
