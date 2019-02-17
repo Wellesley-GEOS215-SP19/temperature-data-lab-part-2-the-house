@@ -1,4 +1,4 @@
-function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(station_number)
+function [baseline_model, tempAnnMeanAnomaly, P, temp2006] = StationModelProjections(station_number)
 
 % StationModelProjections Analyze modeled future temperature projections at individual stations
 %===================================================================
@@ -21,6 +21,7 @@ function [baseline_model, tempAnnMeanAnomaly, P] = StationModelProjections(stati
 %       the 2006-2025 baseline period
 %    P: slope and intercept for a linear fit to annual mean temperature
 %       values over the full 21st century modeled period
+%    temp2006: The annual mean temp for the year 2006 for the input station
 %   **list any other outputs you choose to include**
 %
 % AUTHOR:   KDLTP, NBB, GracieCal, 12 February 2019
@@ -41,6 +42,9 @@ filename = ['model' num2str(station_number) '.csv'];
 stationdata = readtable(filename);
 yearlist = stationdata.Year;
 annualMeanList = stationdata.AnnualMeanTemperature;
+temp2006 = annualMeanList(1)
+%NBB- added temp2006 because it is useful to calculate the year of the
+%signal emergence
 
 %% Calculate the mean and standard deviation of the annual mean temperatures
 %  over the baseline period over the first 20 years of the modeled 21st
@@ -70,7 +74,7 @@ baseline_model = [baseline_mean,baseline_std]
 fiveMean = movmean(tempAnnMeanAnomaly,5);
 %comment from NBB- I changed these last two equations to match the 
 %names of the output variables. We aren't currently using this smooth mean
-%in any way and I'm also not sure it is right
+%in any way 
 %% Calculate the linear trend in temperature this station over the modeled 21st century period
  %<--
  P = polyfit(yearlist,tempAnnMeanAnomaly,1)

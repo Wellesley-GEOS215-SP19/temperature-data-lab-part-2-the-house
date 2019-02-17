@@ -20,7 +20,7 @@ p_recent = NaN*zeros(length(sta),2);
 %using the function StationTempObs_LinearTrend
 %<--
 for i = 1:18
-    [p_allFunct, p_recentFunct] = StationTempObs_LinearTrend(sta(i), recentYear)
+    [p_allFunct, p_recentFunct] = StationTempObs_LinearTrend(sta(1,i), recentYear)
     p_all(i,:) = p_allFunct
     p_recent(i,:) = p_recentFunct
 end
@@ -73,8 +73,9 @@ colorbar
 % Initialize arrays to hold all the output from the for loop you will write
 % below
 baseline_tuple = NaN*zeros(length(sta),2) %holds mean and std 
-annualTempAnom_all = NaN*zeros(length(yearlist),18) %hold all mean temp anomalies
+annualTempAnom_all = NaN*zeros(94,18) %hold all mean temp anomalies
 P_linearTrend = NaN*zeros(length(sta),2) %holds the slope and y intercept
+temp2006_all = NaN*zeros(length(sta),1) %holds all the temps of 2006
 
 % Write a for loop that will use the function StationModelProjections to
 % extract from the model projections for each station:
@@ -84,10 +85,11 @@ P_linearTrend = NaN*zeros(length(sta),2) %holds the slope and y intercept
 %<-- [baseline_model, tempAnnMeanAnomaly, P] = outputs of projections
 for i = 1:18
     %use temperary outputs to fill in the empty array at every loop
-    [meanSTD, tempAnom, slopeInter] = StationModelProjections(sta(i))
+    [meanSTD, tempAnom, slopeInter, t2006] = StationModelProjections(sta(i))
     baseline_tuple(i,:) = meanSTD
     annualTempAnom_all(:,i) = tempAnom
     P_linearTrend(i,:) = slopeInter
+    temp2006_all(i) = t2006
 end
 
 %% Plot a global map of the rate of temperature change projected at each station over the 21st century
@@ -98,15 +100,22 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,P_linearTrend(:,1),'filled')
-title('Temperature Trend 1960-present')
+title('Rate of Temp Change')
+colormap (hot)
 colorbar
-%this works fine but we should use a dif color bar. bit misleading as of
-%current
 
 %% Plot a global map of the interannual variability in annual mean temperature at each station
 %as determined by the baseline standard deviation of the temperatures from
 %2005 to 2025
 %<--
+figure(4); clf
+worldmap('World')
+load coastlines
+plotm(coastlat,coastlon)
+scatterm(lat,lon, 35 ,baseline_tuple(:,2),'filled')
+title(' interannual variability in annual mean temperature')
+colormap (hot)
+colorbar
 
 %% Calculate the time of emergence of the long-term change in temperature from local variability
 %There are many ways to make this calcuation, but here we will compare the
@@ -119,6 +128,24 @@ colorbar
 %temperature trend will have reached 2x the standard deviation of the
 %temperatures from the baseline period
 %<--
-
-%Plot a global map showing the year of emergence
+signalEmergence = NaN*zeros(length(sta),1)
+for i = 1:18
+    meanTemp2006 = temp2006_all(i)
+    stationSTD = baseline_tuple(i,2)
+    signalTemperature = meanTemp2006 + 2*stationSTD
+    slope = P_linearTrend(i,1)
+    intercept = P_linearTrend(i,2)
+    signalYear = (signalTemperature-intercept)/slope
+    
+    signalEmergence(i) = signalYear
+end 
+%% Plot a global map showing the year of emergence
 %<--
+figure(5); clf
+worldmap('World')
+load coastlines
+plotm(coastlat,coastlon)
+scatterm(lat,lon, 35 ,signalEmergence,'filled')
+title('time of emergence of the long-term change in temperature')
+colormap (hot)
+colorbar
