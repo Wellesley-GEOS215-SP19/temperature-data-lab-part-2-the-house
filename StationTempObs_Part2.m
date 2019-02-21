@@ -47,7 +47,8 @@ load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,p_recent(:,1),'filled')
 title('Temperature Trend 1960-present')
-colorbar
+c = colorbar
+c.Label.String = 'Temp (°C)'
 
 
 %Extension option: again using scatterm, plot the difference between the
@@ -100,7 +101,7 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,P_linearTrend(:,1),'filled')
-title('Rate of Temp Change')
+title('Rate of Temperature Change')
 colormap (hot)
 colorbar
 
@@ -113,9 +114,10 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,baseline_tuple(:,2),'filled')
-title(' interannual variability in annual mean temperature')
+title(' Interannual variability in annual mean temperature')
 colormap (hot)
-colorbar
+c = colorbar ; 
+c.Label.String = 'Temp (°C)';
 
 %% Calculate the time of emergence of the long-term change in temperature from local variability
 %There are many ways to make this calcuation, but here we will compare the
@@ -146,5 +148,6 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,signalEmergence,'filled')
-title('time of emergence of the long-term change in temperature')
-colorbar
+title('Predicted time of signal emergence')
+c = colorbar
+c.Label.String = 'Year'
