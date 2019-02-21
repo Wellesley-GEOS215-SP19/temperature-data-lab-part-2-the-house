@@ -147,5 +147,4 @@ load coastlines
 plotm(coastlat,coastlon)
 scatterm(lat,lon, 35 ,signalEmergence,'filled')
 title('time of emergence of the long-term change in temperature')
-colormap (hot)
 colorbar
