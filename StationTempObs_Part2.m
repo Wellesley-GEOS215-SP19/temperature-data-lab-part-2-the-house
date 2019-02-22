@@ -64,7 +64,7 @@ figure(666); clf
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
-scatterm(lat,lon, 35 ,(p_recent(:,1)-(p1960(1,1))),'filled')
+scatterm(lat,lon, 60 ,(p_recent(:,1)-(p1960(1,1))),'filled')
 title('Rate of Change 1960-Present Relative to Global Change')
 c = colorbar
 c.Label.String = 'Temp (°C)'
@@ -109,8 +109,8 @@ figure(3); clf
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
-scatterm(lat,lon, 35 ,P_linearTrend(:,1),'filled')
-title('Rate of Temperature Change')
+scatterm(lat,lon, 60 ,P_linearTrend(:,1),'filled')
+title('Predicted Rate of Temperature Change')
 colormap (hot)
 colorbar
 
@@ -122,7 +122,7 @@ figure(4); clf
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
-scatterm(lat,lon, 35 ,baseline_tuple(:,2),'filled')
+scatterm(lat,lon, 60 ,baseline_tuple(:,2),'filled')
 title(' Interannual variability in annual mean temperature')
 colormap (hot)
 c = colorbar ; 
@@ -156,7 +156,7 @@ figure(5); clf
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
-scatterm(lat,lon, 35 ,signalEmergence,'filled')
+scatterm(lat,lon, 60 ,signalEmergence,'filled')
 title('Predicted time of signal emergence')
 c = colorbar
 c.Label.String = 'Year'
